@@ -1,5 +1,8 @@
 import express from "express";
+import UserController from "../controllers/UserController";
 
-const routes = express.Router();
+const globalRoutes = express.Router();
 
-export default routes;
+globalRoutes.get("user/create", UserController.createUser);
+
+export default globalRoutes;

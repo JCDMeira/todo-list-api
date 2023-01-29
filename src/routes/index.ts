@@ -4,6 +4,7 @@ import globalRoutes from "./globalRoutes";
 
 const routes = (app: appType) => {
   app.route("/").get((req, res) => res.status(200).json({ message: "hello" }));
+  app.use(globalRoutes);
 };
 
 export default routes;
