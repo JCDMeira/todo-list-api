@@ -1,13 +1,12 @@
+import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
-import { httpMethod } from "../types";
-import userBody from "../types/UserBody";
+// import { httpMethod } from "../types";
+// import userBody from "../types/UserBody";
 
 class UserController {
-  static async createUser({
-    req: { body },
-    res,
-  }: httpMethod<{}, {}, userBody>) {
+  static async createUser(req: Request, res: Response) {
     try {
+      const { body } = req;
       const { username } = body;
       const date = new Date().getTime();
 
@@ -26,7 +25,7 @@ class UserController {
 
       return res
         .status(201)
-        .json({ message: `User ${newUser.name} is sucefull create` });
+        .json({ message: `User ${newUser.username} is sucefull create` });
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
