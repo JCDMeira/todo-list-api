@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
+import { Req, Res, UserBody } from "../types";
 // import { httpMethod } from "../types";
 // import userBody from "../types/UserBody";
 
 class UserController {
-  static async createUser(req: Request, res: Response) {
+  static async createUser(req: Req<UserBody>, res: Res) {
     try {
       const { body } = req;
       const { username } = body;

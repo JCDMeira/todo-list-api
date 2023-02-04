@@ -1,7 +1,7 @@
-type userBody = {
+type UserBody = {
   name: string;
   username: string;
   password: string;
 };
 
-export default userBody;
+export default UserBody;
