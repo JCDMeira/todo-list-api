@@ -40,6 +40,19 @@ class UserController {
       return res.status(400).json({ message });
     }
   }
+
+  static async findOneUser(req: Req<{}>, res: Res) {
+    try {
+      const { id } = req.params;
+      const user = await UserModel.find({ _id: id }, { username: 1, name: 1 });
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      return res.status(200).json(user[0]);
+    } catch ({ message }) {
+      return res.status(400).json({ message });
+    }
+  }
 }
 
 export default UserController;
