@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
-import { Req, Res, UserBody } from "../types";
-// import { httpMethod } from "../types";
-// import userBody from "../types/UserBody";
+import { Req, Res, UserBody, UserBodyToEdit } from "../types";
+import encryptPassword from "../utils/encryptPassword";
 
 class UserController {
   static async createUser(req: Req<UserBody>, res: Res) {
@@ -49,6 +47,43 @@ class UserController {
       if (!user) return res.status(404).json({ message: "User not found" });
 
       return res.status(200).json(user[0]);
+    } catch ({ message }) {
+      return res.status(400).json({ message });
+    }
+  }
+
+  static async editOneUser(req: Req<UserBodyToEdit>, res: Res) {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const newBody = { ...body };
+
+      if (newBody.username !== undefined) {
+        if (/\s/g.test(newBody.username))
+          return res.status(400).json({ message: "Invalid Format" });
+
+        const isUnic = await UserModel.find({ username: newBody.username });
+        if (isUnic.length !== 0)
+          return res
+            .status(400)
+            .json({ message: "This username already exist" });
+      }
+
+      if (newBody.password !== undefined) {
+        newBody.password = await encryptPassword(newBody.password);
+      }
+
+      const user: any = await UserModel.findByIdAndUpdate(id, {
+        ...newBody,
+        updated_at: new Date().getTime(),
+      });
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      user.password = undefined;
+      user.__v = undefined;
+
+      return res.status(200).json(user);
     } catch ({ message }) {
       return res.status(400).json({ message });
     }

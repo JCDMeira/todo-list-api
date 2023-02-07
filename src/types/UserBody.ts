@@ -1,7 +1,10 @@
-type UserBody = {
+export type UserBody = {
   name: string;
   username: string;
   password: string;
 };
-
-export default UserBody;
+export type UserBodyToEdit = {
+  name: string | undefined;
+  username: string | undefined;
+  password: string | undefined;
+};
