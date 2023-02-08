@@ -88,6 +88,17 @@ class UserController {
       return res.status(400).json({ message });
     }
   }
+
+  static async deleteUser(req: Req<{}>, res: Res) {
+    try {
+      const { id } = req.params;
+      await UserModel.findByIdAndDelete(id);
+
+      res.status(200).json({ message: "User deleted sussceful" });
+    } catch ({ message }) {
+      res.status(400).json({ message });
+    }
+  }
 }
 
 export default UserController;
