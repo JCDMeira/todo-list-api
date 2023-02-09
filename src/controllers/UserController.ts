@@ -1,6 +1,8 @@
 import UserModel from "../models/UserModel";
 import { Req, Res, UserBody, UserBodyToEdit } from "../types";
 import encryptPassword from "../utils/encryptPassword";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 class UserController {
   static async createUser(req: Req<UserBody>, res: Res) {
@@ -95,6 +97,39 @@ class UserController {
       await UserModel.findByIdAndDelete(id);
 
       res.status(200).json({ message: "User deleted sussceful" });
+    } catch ({ message }) {
+      res.status(400).json({ message });
+    }
+  }
+
+  static async Login(
+    req: Req<{ username: string; password: string }>,
+    res: Res
+  ) {
+    try {
+      const { username, password } = req.body;
+      const user = await UserModel.findOne(
+        { username },
+        { __v: 0, updated_at: 0, created_at: 0 }
+      ).select("+paassword");
+
+      if (!user)
+        return res
+          .status(400)
+          .json({ message: "Invalid username and/or password" });
+
+      if (!(await bcrypt.compare(password, user.password)))
+        return res
+          .status(400)
+          .json({ message: "Invalid username and/or password" });
+
+      const encryptKey = process.env.TOKEN_ENCRYPT as string;
+
+      const token = jwt.sign({ id: user._id }, encryptKey, {
+        expiresIn: "2h",
+      });
+
+      return res.status(200).json({ ...user, password: undefined, token });
     } catch ({ message }) {
       res.status(400).json({ message });
     }
