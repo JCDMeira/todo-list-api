@@ -1,5 +1,9 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express";
+
+interface AuthReq extends Request {
+  userId: string | JwtPayload;
+}
 
 function Auth(req: Request, res: Response, next: NextFunction) {
   try {
@@ -19,9 +23,9 @@ function Auth(req: Request, res: Response, next: NextFunction) {
       return res.status(403).json({ message: "Poorly structured token" });
 
     const encryptKey = process.env.TOKEN_ENCRYPT as string;
-    jwt.verify(token, encryptKey, (error, decod) => {
+    jwt.verify(token, encryptKey, (error, decod: any) => {
       if (error) return res.status(401).json({ message: "Invalid token" });
-
+      console.log(decod);
       // req.userId = decod.id;
 
       return next();

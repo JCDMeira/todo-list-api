@@ -129,7 +129,14 @@ class UserController {
         expiresIn: "2h",
       });
 
-      return res.status(200).json({ ...user, password: undefined, token });
+      return res
+        .status(200)
+        .json({
+          name: user.name,
+          username: user.username,
+          password: undefined,
+          token,
+        });
     } catch ({ message }) {
       res.status(400).json({ message });
     }
