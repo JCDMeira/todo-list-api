@@ -8,5 +8,6 @@ UserRoutes.get("/users", Auth, UserController.findUsers);
 UserRoutes.get("/user/:id", Auth, UserController.findOneUser);
 UserRoutes.put("/user/:id", Auth, UserController.editOneUser);
 UserRoutes.delete("/user/:id", Auth, UserController.deleteUser);
+UserRoutes.post("/user/logout", Auth, UserController.Logout);
 
 export default UserRoutes;

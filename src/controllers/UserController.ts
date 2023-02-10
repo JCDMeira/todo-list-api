@@ -129,14 +129,35 @@ class UserController {
         expiresIn: "2h",
       });
 
-      return res
-        .status(200)
-        .json({
-          name: user.name,
-          username: user.username,
-          password: undefined,
-          token,
-        });
+      return res.status(200).json({
+        name: user.name,
+        username: user.username,
+        password: undefined,
+        token,
+      });
+    } catch ({ message }) {
+      res.status(400).json({ message });
+    }
+  }
+  static async Logout(req: Req<{ username: string }>, res: Res) {
+    try {
+      const { username } = req.body;
+      const user = await UserModel.findOne(
+        { username },
+        { __v: 0, updated_at: 0, created_at: 0 }
+      );
+
+      if (!user) return res.status(400).json({ message: "Error" });
+
+      const encryptKey = process.env.TOKEN_ENCRYPT as string;
+
+      jwt.sign({ id: user._id }, encryptKey, {
+        expiresIn: "120ms",
+      });
+
+      return res.status(200).json({
+        message: "You have been logged out",
+      });
     } catch ({ message }) {
       res.status(400).json({ message });
     }
