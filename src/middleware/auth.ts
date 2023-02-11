@@ -25,8 +25,7 @@ function Auth(req: Request, res: Response, next: NextFunction) {
     const encryptKey = process.env.TOKEN_ENCRYPT as string;
     jwt.verify(token, encryptKey, (error, decod: any) => {
       if (error) return res.status(401).json({ message: "Invalid token" });
-      console.log(decod);
-      // req.userId = decod.id;
+      req.body.userId = decod.id;
 
       return next();
     });
