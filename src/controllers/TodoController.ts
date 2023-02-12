@@ -27,6 +27,20 @@ class TodoController {
       return res.status(400).json({ message });
     }
   }
+
+  static async editTodo(req: Req<any>, res: Res) {
+    try {
+      const {
+        body,
+        params: { id },
+      } = req;
+      const todo = await TodoModel.findByIdAndUpdate(id, { ...body });
+      //!todo: tratar dados que voltam para não devolver dados não desejáveis
+      return res.status(200).json({ todo });
+    } catch ({ message }) {
+      return res.status(400).json({ message });
+    }
+  }
 }
 
 export default TodoController;
