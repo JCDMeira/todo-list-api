@@ -1,3 +1,4 @@
+import { renameSync } from "fs";
 import TodoModel from "../models/TodoModel";
 import { Req, Res } from "../types";
 
@@ -11,6 +12,8 @@ class TodoController {
         updated_at: date,
       });
 
+      todo.__v = undefined;
+
       return res.status(201).json({ message: "Todo sucessful created", todo });
     } catch ({ message }) {
       return res.status(400).json({ message });
@@ -22,6 +25,11 @@ class TodoController {
       const { userId } = req.body;
       const todos = await TodoModel.find({ created_by: userId });
 
+      if (!!todos) {
+        todos.forEach((_, index) => {
+          todos[index].__v = undefined;
+        });
+      }
       return res.status(200).json({ todos });
     } catch ({ message }) {
       return res.status(400).json({ message });
@@ -35,16 +43,27 @@ class TodoController {
         params: { id },
       } = req;
       const date = new Date().getTime();
-      const todo = await TodoModel.findByIdAndUpdate(id, {
+      await TodoModel.findByIdAndUpdate(id, {
         ...body,
         updated_at: date,
       });
 
-      if (todo) {
-        todo.__v = undefined;
-      }
+      return res.status(200).json({ message: "Todo was editaled susscefully" });
+    } catch ({ message }) {
+      return res.status(400).json({ message });
+    }
+  }
 
-      return res.status(200).json(todo);
+  static async deleTodo(req: Req<any>, res: Res) {
+    try {
+      const {
+        params: { id },
+      } = req;
+      const todo = await TodoModel.findByIdAndDelete(id);
+
+      if (!todo) return res.status(404).json({ message: "Todo was not found" });
+
+      return res.status(200).json({ message: "Todo was deleted susscefully" });
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
