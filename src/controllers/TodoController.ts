@@ -34,9 +34,17 @@ class TodoController {
         body,
         params: { id },
       } = req;
-      const todo = await TodoModel.findByIdAndUpdate(id, { ...body });
-      //!todo: tratar dados que voltam para não devolver dados não desejáveis
-      return res.status(200).json({ todo });
+      const date = new Date().getTime();
+      const todo = await TodoModel.findByIdAndUpdate(id, {
+        ...body,
+        updated_at: date,
+      });
+
+      if (todo) {
+        todo.__v = undefined;
+      }
+
+      return res.status(200).json(todo);
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
