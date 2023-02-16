@@ -1,10 +1,12 @@
-import { renameSync } from "fs";
 import TodoModel from "../models/TodoModel";
 import { Req, Res } from "../types";
 
 class TodoController {
   static async CreatTodo(req: Req<any>, res: Res) {
     try {
+      if (req.body?.priority > 4)
+        return res.status(400).json({ message: "Invalid format" });
+
       const date = new Date().getTime();
       const todo = await TodoModel.create({
         ...req.body,
