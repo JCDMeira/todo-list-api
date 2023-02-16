@@ -25,6 +25,8 @@ class TodoController {
   static async GetTodos(req: Req<any>, res: Res) {
     try {
       const { userId } = req.body;
+      const { format } = req.query;
+
       const todos = await TodoModel.find({ created_by: userId });
 
       if (!!todos) {
@@ -32,6 +34,40 @@ class TodoController {
           todos[index].__v = undefined;
         });
       }
+
+      if (format === "priority") {
+        const todosByPriority = todos.reduce<any>(
+          (acc, todo) => {
+            switch (todo.priority) {
+              case 0:
+                return { ...acc, draft: [...acc.draft, todo] };
+              case 1:
+                return { ...acc, to_do: [...acc.to_do, todo] };
+              case 2:
+                return { ...acc, when_you_give: [...acc.when_you_give, todo] };
+              case 3:
+                return { ...acc, as_soon: [...acc.as_soon, todo] };
+              case 4:
+                return {
+                  ...acc,
+                  as_soon_as_possible: [...acc.as_soon_as_possible, todo],
+                };
+              default:
+                throw new Error("Internal error");
+            }
+          },
+          {
+            draft: [],
+            to_do: [],
+            when_you_give: [],
+            as_soon: [],
+            as_soon_as_possible: [],
+          }
+        );
+
+        return res.status(200).json(todosByPriority);
+      }
+
       return res.status(200).json({ todos });
     } catch ({ message }) {
       return res.status(400).json({ message });
