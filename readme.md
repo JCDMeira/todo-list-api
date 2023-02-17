@@ -6,19 +6,48 @@ Uma API para registro e controle de afazeres
 
 ### Requisitos
 
-- A aplicação deve poder registrar usuário
-  - O cadastro deve passar por um convite de outro usuário que tenha permissão de convidar
-- Um usuário terá um set de permissões que pode dizer se ele pode ou não convidar um novo usuário
-- Haverá limites ou diferenças nas rotas para os tipos de usuário
-- Se pode pesquisar entre as tarefas por data
-  - sendo a data específica
-  - sendo antes da data inserida
-  - deve ser indicado por query string
-- Cada tarefa pode ser de uma tag específica, mas não é um input obrigatório
-- Deve ser possível filtrar por tag
-- Deve ser possível adicionar tag de prioridade
-- Deve ser possível buscar as tasks organizadas em quadro estilo kambam
-- Deve ser possível visualizar em modelo calendário ou semana.
+- [x] A aplicação deve poder registrar usuário (CRUD completo)
+
+  - [ ] O cadastro deve passar por um convite de outro usuário admin
+  - [ ] usuários podem ser admin ou common
+
+- [ ] Permissões
+
+  - [ ] admin tem todas as permissões
+  - [ ] poder convidar outros usuários é uma permissão
+  - [ ] ter acesso a modos de visualização é uma permissão
+  - [ ] cada modo e busca ser uma permissão ?
+
+- [x] deve haver um CRUD completo de to-dos
+
+  - [ ] modelo
+
+    - [x] deve ter title
+    - [x] deve ter description
+    - [x] pode ter priority
+    - [x] deve ter created_by linkado ao user logado
+    - [x] pode ter date que indica data do afazer
+    - [x] deve ter created_at sendo a data de criação
+    - [x] deve ter created_at sendo a última data de atualização
+    - [ ] pode ter tag que representa o tipo de tarefa
+
+- [ ] Filtrar entre as tarefas via query
+
+  - [ ] sendo por data específica
+  - [ ] sendo por antes da data
+  - [ ] por tag
+  - [ ] por tag de prioridade
+
+- [ ] modos de visualização
+
+  - [ ] organizadas em quadro estilo kambam
+  - [ ] visualizar em modelo calendário
+  - [ ] visualizar em modelo dias da semana.
+
+- [ ] Ordenação
+
+  - [ ] modelo por dias da semana
+  - [ ] modelo por prioridade
 
 ## Aprendizados <a name="id04"></a>
 
