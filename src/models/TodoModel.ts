@@ -4,6 +4,7 @@ const TodoSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: false },
   priority: { type: Number, required: false },
+  tag: { type: Array<string>, required: false },
   created_by: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
