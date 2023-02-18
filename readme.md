@@ -20,7 +20,7 @@ Uma API para registro e controle de afazeres
 
 - [x] deve haver um CRUD completo de to-dos
 
-  - [ ] modelo
+  - [x] modelo
 
     - [x] deve ter title
     - [x] deve ter description
@@ -29,7 +29,12 @@ Uma API para registro e controle de afazeres
     - [x] pode ter date que indica data do afazer
     - [x] deve ter created_at sendo a data de criação
     - [x] deve ter created_at sendo a última data de atualização
-    - [ ] pode ter tag que representa o tipo de tarefa
+    - [x] pode ter tag que representa o tipo de tarefa
+
+  - [x] rota para criar uma todo
+  - [x] rota para editar uma todo
+  - [x] rota para buscar todas todos
+  - [x] rota para deletar uma todo
 
 - [ ] Filtrar entre as tarefas via query
 
@@ -40,7 +45,7 @@ Uma API para registro e controle de afazeres
 
 - [ ] modos de visualização
 
-  - [ ] organizadas em quadro estilo kambam
+  - [x] organizadas em quadro estilo kambam
   - [ ] visualizar em modelo calendário
   - [ ] visualizar em modelo dias da semana.
 
