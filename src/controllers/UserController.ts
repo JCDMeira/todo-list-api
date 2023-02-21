@@ -3,7 +3,7 @@ import { Req, Res, UserBody, UserBodyToEdit } from "../types";
 import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import UsersRepository from "../repositories/UsersRepositoriy";
+import UsersRepository from "../repositories/UsersRepository";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -110,7 +110,7 @@ class UserController {
       const user = await UserModel.findOne(
         { username },
         { __v: 0, updated_at: 0, created_at: 0 }
-      ).select("+paassword");
+      ).select("+password");
 
       if (!user)
         return res
