@@ -33,7 +33,7 @@ class UserController {
 
   static async findUsers(req: Req<{}>, res: Res) {
     try {
-      const users = await UserModel.find({}, { username: 1, name: 1 });
+      const users = await usersRepository.findAll();
       return res.status(200).json({ users });
     } catch ({ message }) {
       return res.status(400).json({ message });

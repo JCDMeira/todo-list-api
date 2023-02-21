@@ -27,6 +27,11 @@ class UsersRepository {
     const user = await UserModel.find({ username });
     return user;
   }
+
+  async findAll() {
+    const users = await UserModel.find({}, { username: 1, name: 1 });
+    return users;
+  }
 }
 
 export default UsersRepository;
