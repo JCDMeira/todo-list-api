@@ -15,7 +15,7 @@ class UserController {
       if (/\s/g.test(username))
         return res.status(400).json({ message: "Invalid format" });
 
-      const isUnic = await UserModel.find({ username });
+      const isUnic = await usersRepository.findByName({ username });
       if (isUnic.length)
         return res.status(400).json({ message: "This username already exist" });
 
