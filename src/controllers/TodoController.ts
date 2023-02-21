@@ -10,6 +10,7 @@ class TodoController {
       const date = new Date().getTime();
       const todo = await TodoModel.create({
         ...req.body,
+        isCompleted: false,
         created_at: date,
         updated_at: date,
       });

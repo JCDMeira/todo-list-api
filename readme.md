@@ -30,6 +30,7 @@ Uma API para registro e controle de afazeres
     - [x] deve ter created_at sendo a data de criação
     - [x] deve ter created_at sendo a última data de atualização
     - [x] pode ter tag que representa o tipo de tarefa
+    - [x] adicionar se o to-do está completo
 
   - [x] rota para criar uma todo
   - [x] rota para editar uma todo
