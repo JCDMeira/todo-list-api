@@ -9,6 +9,9 @@ interface ICreateUserDTO {
 interface IfindUserByUsernameDTO {
   username: string;
 }
+interface IfindUserByIdDTO {
+  id: string;
+}
 
 class UsersRepository {
   async create({ name, username, password }: ICreateUserDTO) {
@@ -31,6 +34,11 @@ class UsersRepository {
   async findAll() {
     const users = await UserModel.find({}, { username: 1, name: 1 });
     return users;
+  }
+
+  async findById({ id }: IfindUserByIdDTO) {
+    const user = await UserModel.find({ _id: id }, { username: 1, name: 1 });
+    return user;
   }
 }
 

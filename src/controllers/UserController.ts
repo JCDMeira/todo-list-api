@@ -43,7 +43,8 @@ class UserController {
   static async findOneUser(req: Req<{}>, res: Res) {
     try {
       const { id } = req.params;
-      const user = await UserModel.find({ _id: id }, { username: 1, name: 1 });
+      const user = await usersRepository.findById({ id });
+
       if (user.length === 0)
         return res.status(404).json({ message: "User not found" });
 
