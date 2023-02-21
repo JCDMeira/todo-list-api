@@ -26,7 +26,7 @@ class UsersRepository {
     });
   }
 
-  async findByName({ username }: IfindUserByUsernameDTO) {
+  async findByUsername({ username }: IfindUserByUsernameDTO) {
     const user = await UserModel.find({ username });
     return user;
   }

@@ -15,7 +15,7 @@ class UserController {
       if (/\s/g.test(username))
         return res.status(400).json({ message: "Invalid format" });
 
-      const isUnic = await usersRepository.findByName({ username });
+      const isUnic = await usersRepository.findByUsername({ username });
       if (isUnic.length)
         return res.status(400).json({ message: "This username already exist" });
 
@@ -59,12 +59,16 @@ class UserController {
       const { id } = req.params;
       const body = req.body;
       const newBody = { ...body };
+      const { username } = newBody;
 
-      if (newBody.username !== undefined) {
-        if (/\s/g.test(newBody.username))
+      if (username !== undefined) {
+        if (/\s/g.test(username))
           return res.status(400).json({ message: "Invalid Format" });
 
-        const isUnic = await UserModel.find({ username: newBody.username });
+        const isUnic = await usersRepository.findByUsername({
+          username,
+        });
+
         if (isUnic.length !== 0)
           return res
             .status(400)
