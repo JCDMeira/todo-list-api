@@ -6,11 +6,17 @@ interface ICreateUserDTO {
   password: string;
 }
 
-interface IfindUserByUsernameDTO {
+interface IFindUserByUsernameDTO {
   username: string;
 }
-interface IfindUserByIdDTO {
+interface IFindUserByIdDTO {
   id: string;
+}
+interface IEditByIdDTO {
+  id: string;
+  name?: string;
+  username?: string;
+  password?: string;
 }
 
 class UsersRepository {
@@ -26,7 +32,7 @@ class UsersRepository {
     });
   }
 
-  async findByUsername({ username }: IfindUserByUsernameDTO) {
+  async findByUsername({ username }: IFindUserByUsernameDTO) {
     const user = await UserModel.find({ username });
     return user;
   }
@@ -36,8 +42,17 @@ class UsersRepository {
     return users;
   }
 
-  async findById({ id }: IfindUserByIdDTO) {
+  async findById({ id }: IFindUserByIdDTO) {
     const user = await UserModel.find({ _id: id }, { username: 1, name: 1 });
+    return user;
+  }
+
+  async editById({ id, ...rest }: IEditByIdDTO) {
+    const user = await UserModel.findByIdAndUpdate(id, {
+      ...rest,
+      updated_at: new Date().getTime(),
+    });
+
     return user;
   }
 }

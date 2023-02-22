@@ -79,17 +79,14 @@ class UserController {
         newBody.password = await encryptPassword(newBody.password);
       }
 
-      const user: any = await UserModel.findByIdAndUpdate(id, {
-        ...newBody,
-        updated_at: new Date().getTime(),
-      });
+      const user: any = await usersRepository.editById({ id, ...newBody });
 
       if (!user) return res.status(404).json({ message: "User not found" });
-
+      console.log(user);
       user.password = undefined;
       user.__v = undefined;
 
-      return res.status(200).json(user);
+      return res.status(200).json({ message: "User edited susscefull" });
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
