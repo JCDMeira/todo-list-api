@@ -82,7 +82,7 @@ class UserController {
       const user: any = await usersRepository.editById({ id, ...newBody });
 
       if (!user) return res.status(404).json({ message: "User not found" });
-      console.log(user);
+
       user.password = undefined;
       user.__v = undefined;
 
@@ -95,7 +95,7 @@ class UserController {
   static async deleteUser(req: Req<{}>, res: Res) {
     try {
       const { id } = req.params;
-      await UserModel.findByIdAndDelete(id);
+      await usersRepository.deleteById({ id });
 
       res.status(200).json({ message: "User deleted sussceful" });
     } catch ({ message }) {

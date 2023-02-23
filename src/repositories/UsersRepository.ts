@@ -55,6 +55,10 @@ class UsersRepository {
 
     return user;
   }
+
+  async deleteById({ id }: IFindUserByIdDTO) {
+    await UserModel.findByIdAndDelete(id);
+  }
 }
 
 export default UsersRepository;
