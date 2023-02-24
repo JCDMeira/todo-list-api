@@ -5,8 +5,9 @@ import {
   IFindUserByIdDTO,
   IFindUserByUsernameDTO,
 } from "../types";
+import IUsersRepository from "./IUsersRepository";
 
-class UsersRepository {
+class UsersRepository implements IUsersRepository {
   async create({ name, username, password }: ICreateUserDTO) {
     const date = new Date().getTime();
 
@@ -20,7 +21,7 @@ class UsersRepository {
   }
 
   async findByUsername({ username }: IFindUserByUsernameDTO) {
-    const user = UserModel.findOne({ username }, { __v: 0 }).select(
+    const user = await UserModel.findOne({ username }, { __v: 0 }).select(
       "+password"
     );
     return user;

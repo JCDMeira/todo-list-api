@@ -1,8 +1,8 @@
-import UsersRepository from "../repositories/UsersRepository";
+import IUsersRepository from "../repositories/IUsersRepository";
 import { ICreateUserDTO } from "../types";
 
 class CreateUser {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: IUsersRepository) {}
 
   async execute({ name, username, password }: ICreateUserDTO) {
     if (/\s/g.test(username)) throw new Error("Invalid format");
