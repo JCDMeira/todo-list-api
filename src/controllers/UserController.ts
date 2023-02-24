@@ -4,6 +4,7 @@ import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import UsersRepository from "../repositories/UsersRepository";
+import CreateUser from "../services/CreateUser";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -11,19 +12,8 @@ class UserController {
     try {
       const { body } = req;
       const { name, username, password } = body;
-
-      if (/\s/g.test(username))
-        return res.status(400).json({ message: "Invalid format" });
-
-      const isUnic = await usersRepository.findByUsername({ username });
-      if (!!isUnic)
-        return res.status(400).json({ message: "This username already exist" });
-
-      usersRepository.create({
-        name,
-        username,
-        password,
-      });
+      const createUserService = new CreateUser(usersRepository);
+      await createUserService.execute({ name, username, password });
 
       return res.status(201).json({ message: `User is sucefull create` });
     } catch ({ message }) {

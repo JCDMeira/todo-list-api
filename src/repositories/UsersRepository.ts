@@ -1,23 +1,10 @@
 import UserModel from "../models/UserModel";
-
-interface ICreateUserDTO {
-  name: string;
-  username: string;
-  password: string;
-}
-
-interface IFindUserByUsernameDTO {
-  username: string;
-}
-interface IFindUserByIdDTO {
-  id: string;
-}
-interface IEditByIdDTO {
-  id: string;
-  name?: string;
-  username?: string;
-  password?: string;
-}
+import {
+  ICreateUserDTO,
+  IEditByIdDTO,
+  IFindUserByIdDTO,
+  IFindUserByUsernameDTO,
+} from "../types";
 
 class UsersRepository {
   async create({ name, username, password }: ICreateUserDTO) {
