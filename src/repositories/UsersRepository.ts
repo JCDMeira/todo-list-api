@@ -33,7 +33,9 @@ class UsersRepository {
   }
 
   async findByUsername({ username }: IFindUserByUsernameDTO) {
-    const user = await UserModel.find({ username });
+    const user = UserModel.findOne({ username }, { __v: 0 }).select(
+      "+password"
+    );
     return user;
   }
 

@@ -16,7 +16,7 @@ class UserController {
         return res.status(400).json({ message: "Invalid format" });
 
       const isUnic = await usersRepository.findByUsername({ username });
-      if (isUnic.length)
+      if (!!isUnic)
         return res.status(400).json({ message: "This username already exist" });
 
       usersRepository.create({
@@ -69,7 +69,7 @@ class UserController {
           username,
         });
 
-        if (isUnic.length !== 0)
+        if (!!isUnic)
           return res
             .status(400)
             .json({ message: "This username already exist" });
@@ -109,10 +109,7 @@ class UserController {
   ) {
     try {
       const { username, password } = req.body;
-      const user = await UserModel.findOne(
-        { username },
-        { __v: 0, updated_at: 0, created_at: 0 }
-      ).select("+password");
+      const user = await usersRepository.findByUsername({ username });
 
       if (!user)
         return res
