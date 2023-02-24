@@ -140,10 +140,7 @@ class UserController {
   static async Logout(req: Req<{ username: string }>, res: Res) {
     try {
       const { username } = req.body;
-      const user = await UserModel.findOne(
-        { username },
-        { __v: 0, updated_at: 0, created_at: 0 }
-      );
+      const user = await usersRepository.findByUsername({ username });
 
       if (!user) return res.status(400).json({ message: "Error" });
 
