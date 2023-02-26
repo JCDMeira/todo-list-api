@@ -33,11 +33,21 @@ class UserController {
   static async findOneUser(req: Req<{}>, res: Res) {
     try {
       const { id } = req.params;
-      const user = await usersRepository.findById({ id });
+      const user = await usersRepository.findOne({
+        key: "_id",
+        query: id,
+      });
 
       if (!user) return res.status(404).json({ message: "User not found" });
 
-      return res.status(200).json(user);
+      return res.status(200).json({
+        id: user._id,
+        name: user.name,
+        username: user.username,
+        password: undefined,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+      });
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
@@ -54,8 +64,9 @@ class UserController {
         if (/\s/g.test(username))
           return res.status(400).json({ message: "Invalid Format" });
 
-        const isUnic = await usersRepository.findByUsername({
-          username,
+        const isUnic = await usersRepository.findOne({
+          key: "username",
+          query: username,
         });
 
         if (!!isUnic)
@@ -73,7 +84,6 @@ class UserController {
       if (!user) return res.status(404).json({ message: "User not found" });
 
       user.password = undefined;
-      user.__v = undefined;
 
       return res.status(200).json({ message: "User edited susscefull" });
     } catch ({ message }) {
@@ -98,7 +108,10 @@ class UserController {
   ) {
     try {
       const { username, password } = req.body;
-      const user = await usersRepository.findByUsername({ username });
+      const user = await usersRepository.findOne({
+        key: "username",
+        query: username,
+      });
 
       if (!user)
         return res
@@ -127,10 +140,13 @@ class UserController {
       res.status(400).json({ message });
     }
   }
-  static async Logout(req: Req<{ username: string }>, res: Res) {
+  static async Logout(req: Req<{ userId: string }>, res: Res) {
     try {
-      const { username } = req.body;
-      const user = await usersRepository.findByUsername({ username });
+      const { userId } = req.body;
+      const user = await usersRepository.findOne({
+        key: "_id",
+        query: userId,
+      });
 
       if (!user) return res.status(400).json({ message: "Error" });
 

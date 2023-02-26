@@ -4,11 +4,13 @@ export interface ICreateUserDTO {
   password: string;
 }
 
-export interface IFindUserByUsernameDTO {
-  username: string;
-}
-export interface IFindUserByIdDTO {
+export interface IDeleteUserByIdDTO {
   id: string;
+}
+
+export interface IFindUserDTO {
+  key: "_id" | "username";
+  query: string;
 }
 export interface IEditByIdDTO {
   id: string;

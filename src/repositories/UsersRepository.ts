@@ -2,8 +2,8 @@ import UserModel from "../models/UserModel";
 import {
   ICreateUserDTO,
   IEditByIdDTO,
-  IFindUserByIdDTO,
-  IFindUserByUsernameDTO,
+  IDeleteUserByIdDTO,
+  IFindUserDTO,
 } from "../types";
 import IUsersRepository from "./IUsersRepository";
 
@@ -20,20 +20,15 @@ class UsersRepository implements IUsersRepository {
     });
   }
 
-  async findByUsername({ username }: IFindUserByUsernameDTO) {
-    const user = await UserModel.findOne({ username }, { __v: 0 }).select(
-      "+password"
-    );
-    return user;
-  }
-
   async findAll() {
     const users = await UserModel.find({}, { username: 1, name: 1 });
     return users;
   }
 
-  async findById({ id }: IFindUserByIdDTO) {
-    const user = await UserModel.findOne({ _id: id }, { username: 1, name: 1 });
+  async findOne({ key, query }: IFindUserDTO) {
+    const user = await UserModel.findOne({ [key]: query }, { __v: 0 }).select(
+      "+password"
+    );
     return user;
   }
 
@@ -46,7 +41,7 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async deleteById({ id }: IFindUserByIdDTO) {
+  async deleteById({ id }: IDeleteUserByIdDTO) {
     await UserModel.findByIdAndDelete(id);
   }
 }
