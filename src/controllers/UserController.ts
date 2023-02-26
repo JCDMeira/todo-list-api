@@ -35,10 +35,9 @@ class UserController {
       const { id } = req.params;
       const user = await usersRepository.findById({ id });
 
-      if (user.length === 0)
-        return res.status(404).json({ message: "User not found" });
+      if (!user) return res.status(404).json({ message: "User not found" });
 
-      return res.status(200).json(user[0]);
+      return res.status(200).json(user);
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
@@ -118,6 +117,7 @@ class UserController {
       });
 
       return res.status(200).json({
+        id: user._id,
         name: user.name,
         username: user.username,
         password: undefined,

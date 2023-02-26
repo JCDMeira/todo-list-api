@@ -33,7 +33,7 @@ class UsersRepository implements IUsersRepository {
   }
 
   async findById({ id }: IFindUserByIdDTO) {
-    const user = await UserModel.find({ _id: id }, { username: 1, name: 1 });
+    const user = await UserModel.findOne({ _id: id }, { username: 1, name: 1 });
     return user;
   }
 
