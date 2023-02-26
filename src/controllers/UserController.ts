@@ -4,7 +4,7 @@ import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UsersRepository } from "../repositories";
-import { CreateUser, FindOne, FindUsers } from "../services";
+import { CreateUser, EditOne, FindOne, FindUsers } from "../services";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -45,34 +45,8 @@ class UserController {
     try {
       const { id } = req.params;
       const body = req.body;
-      const newBody = { ...body };
-      const { username } = newBody;
-
-      if (username !== undefined) {
-        if (/\s/g.test(username))
-          return res.status(400).json({ message: "Invalid Format" });
-
-        const isUnic = await usersRepository.findOne({
-          key: "username",
-          query: username,
-        });
-
-        if (!!isUnic)
-          return res
-            .status(400)
-            .json({ message: "This username already exist" });
-      }
-
-      if (newBody.password !== undefined) {
-        newBody.password = await encryptPassword(newBody.password);
-      }
-
-      const user: any = await usersRepository.editById({ id, ...newBody });
-
-      if (!user) return res.status(404).json({ message: "User not found" });
-
-      user.password = undefined;
-
+      const EditOneService = new EditOne(usersRepository);
+      await EditOneService.execute({ id, ...body });
       return res.status(200).json({ message: "User edited susscefull" });
     } catch ({ message }) {
       return res.status(400).json({ message });
