@@ -4,7 +4,7 @@ import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UsersRepository } from "../repositories";
-import { CreateUser, FindUsers } from "../services";
+import { CreateUser, FindOne, FindUsers } from "../services";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -33,21 +33,9 @@ class UserController {
   static async findOneUser(req: Req<{}>, res: Res) {
     try {
       const { id } = req.params;
-      const user = await usersRepository.findOne({
-        key: "_id",
-        query: id,
-      });
-
-      if (!user) return res.status(404).json({ message: "User not found" });
-
-      return res.status(200).json({
-        id: user._id,
-        name: user.name,
-        username: user.username,
-        password: undefined,
-        created_at: user.created_at,
-        updated_at: user.updated_at,
-      });
+      const findOneService = new FindOne(usersRepository);
+      const user = await findOneService.execute(id);
+      return res.status(200).json(user);
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
