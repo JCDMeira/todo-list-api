@@ -3,8 +3,8 @@ import { Req, Res, UserBody, UserBodyToEdit } from "../types";
 import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import UsersRepository from "../repositories/UsersRepository";
-import CreateUser from "../services/CreateUser";
+import { UsersRepository } from "../repositories";
+import { CreateUser, FindUsers } from "../services";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -14,7 +14,6 @@ class UserController {
       const { name, username, password } = body;
       const createUserService = new CreateUser(usersRepository);
       await createUserService.execute({ name, username, password });
-
       return res.status(201).json({ message: `User is sucefull create` });
     } catch ({ message }) {
       return res.status(400).json({ message });
@@ -23,7 +22,8 @@ class UserController {
 
   static async findUsers(req: Req<{}>, res: Res) {
     try {
-      const users = await usersRepository.findAll();
+      const findUsersService = new FindUsers(usersRepository);
+      const users = await findUsersService.execute();
       return res.status(200).json({ users });
     } catch ({ message }) {
       return res.status(400).json({ message });

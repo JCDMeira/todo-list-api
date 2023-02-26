@@ -1,6 +1,6 @@
 import { ICreateUserDTO, IEditByIdDTO, IFindUserDTO, User } from "../types";
 
-export default interface IUsersRepository {
+export interface IUsersRepository {
   create(props: ICreateUserDTO): void;
 
   findAll(): Promise<User[] | null>;

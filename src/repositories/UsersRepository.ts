@@ -5,9 +5,9 @@ import {
   IDeleteUserByIdDTO,
   IFindUserDTO,
 } from "../types";
-import IUsersRepository from "./IUsersRepository";
+import { IUsersRepository } from "./";
 
-class UsersRepository implements IUsersRepository {
+export class UsersRepository implements IUsersRepository {
   async create({ name, username, password }: ICreateUserDTO) {
     const date = new Date().getTime();
 
@@ -45,5 +45,3 @@ class UsersRepository implements IUsersRepository {
     await UserModel.findByIdAndDelete(id);
   }
 }
-
-export default UsersRepository;

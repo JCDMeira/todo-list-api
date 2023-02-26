@@ -1,7 +1,7 @@
-import IUsersRepository from "../repositories/IUsersRepository";
+import { IUsersRepository } from "../repositories";
 import { ICreateUserDTO } from "../types";
 
-class CreateUser {
+export class CreateUser {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute({ name, username, password }: ICreateUserDTO) {
@@ -20,5 +20,3 @@ class CreateUser {
     });
   }
 }
-
-export default CreateUser;
