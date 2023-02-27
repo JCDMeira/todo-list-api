@@ -18,3 +18,7 @@ export interface IEditByIdDTO {
   username?: string;
   password?: string;
 }
+export interface ILoginDTO {
+  username: string;
+  password: string;
+}

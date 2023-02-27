@@ -1,5 +1,5 @@
 import UserModel from "../models/UserModel";
-import { Req, Res, UserBody, UserBodyToEdit } from "../types";
+import { ILoginDTO, Req, Res, UserBody, UserBodyToEdit } from "../types";
 import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -10,6 +10,7 @@ import {
   EditOne,
   FindOne,
   FindUsers,
+  LoginUser,
 } from "../services";
 
 const usersRepository = new UsersRepository();
@@ -69,40 +70,11 @@ class UserController {
     }
   }
 
-  static async Login(
-    req: Req<{ username: string; password: string }>,
-    res: Res
-  ) {
+  static async Login(req: Req<ILoginDTO>, res: Res) {
     try {
-      const { username, password } = req.body;
-      const user = await usersRepository.findOne({
-        key: "username",
-        query: username,
-      });
-
-      if (!user)
-        return res
-          .status(400)
-          .json({ message: "Invalid username and/or password" });
-
-      if (!(await bcrypt.compare(password, user.password)))
-        return res
-          .status(400)
-          .json({ message: "Invalid username and/or password" });
-
-      const encryptKey = process.env.TOKEN_ENCRYPT as string;
-
-      const token = jwt.sign({ id: user._id }, encryptKey, {
-        expiresIn: "2h",
-      });
-
-      return res.status(200).json({
-        id: user._id,
-        name: user.name,
-        username: user.username,
-        password: undefined,
-        token,
-      });
+      const loginUserService = new LoginUser(usersRepository);
+      const user = loginUserService.execute(req.body);
+      return res.status(200).json(user);
     } catch ({ message }) {
       res.status(400).json({ message });
     }
