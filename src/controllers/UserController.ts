@@ -1,8 +1,4 @@
-import UserModel from "../models/UserModel";
 import { ILoginDTO, Req, Res, UserBody, UserBodyToEdit } from "../types";
-import encryptPassword from "../utils/encryptPassword";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { UsersRepository } from "../repositories";
 import {
   CreateUser,
@@ -11,8 +7,8 @@ import {
   FindOne,
   FindUsers,
   LoginUser,
+  LogoutUser,
 } from "../services";
-
 const usersRepository = new UsersRepository();
 class UserController {
   static async createUser(req: Req<UserBody>, res: Res) {
@@ -79,22 +75,11 @@ class UserController {
       res.status(400).json({ message });
     }
   }
+
   static async Logout(req: Req<{ userId: string }>, res: Res) {
     try {
-      const { userId } = req.body;
-      const user = await usersRepository.findOne({
-        key: "_id",
-        query: userId,
-      });
-
-      if (!user) return res.status(400).json({ message: "Error" });
-
-      const encryptKey = process.env.TOKEN_ENCRYPT as string;
-
-      jwt.sign({ id: user._id }, encryptKey, {
-        expiresIn: "120ms",
-      });
-
+      const logoutUserService = new LogoutUser(usersRepository);
+      logoutUserService.execute(req.body.userId);
       return res.status(200).json({
         message: "You have been logged out",
       });

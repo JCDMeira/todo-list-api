@@ -1,5 +1,4 @@
 import { IUsersRepository } from "../repositories";
-import jwt from "jsonwebtoken";
 
 export class DeleteUser {
   constructor(private usersRepository: IUsersRepository) {}

@@ -4,3 +4,4 @@ export * from "./EditOne";
 export * from "./FindOne";
 export * from "./FindUsers";
 export * from "./LoginUser";
+export * from "./LogoutUser";
