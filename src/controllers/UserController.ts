@@ -4,7 +4,13 @@ import encryptPassword from "../utils/encryptPassword";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UsersRepository } from "../repositories";
-import { CreateUser, EditOne, FindOne, FindUsers } from "../services";
+import {
+  CreateUser,
+  DeleteUser,
+  EditOne,
+  FindOne,
+  FindUsers,
+} from "../services";
 
 const usersRepository = new UsersRepository();
 class UserController {
@@ -53,11 +59,10 @@ class UserController {
     }
   }
 
-  static async deleteUser(req: Req<{}>, res: Res) {
+  static async deleteUser(req: Req<{ userId: string }>, res: Res) {
     try {
-      const { id } = req.params;
-      await usersRepository.deleteById({ id });
-
+      const deleteUserService = new DeleteUser(usersRepository);
+      deleteUserService.execute(req.params.id, req.body.userId);
       res.status(200).json({ message: "User deleted sussceful" });
     } catch ({ message }) {
       res.status(400).json({ message });
