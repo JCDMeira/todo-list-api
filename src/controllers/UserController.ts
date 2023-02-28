@@ -69,7 +69,7 @@ class UserController {
   static async Login(req: Req<ILoginDTO>, res: Res) {
     try {
       const loginUserService = new LoginUser(usersRepository);
-      const user = loginUserService.execute(req.body);
+      const user = await loginUserService.execute(req.body);
       return res.status(200).json(user);
     } catch ({ message }) {
       res.status(400).json({ message });

@@ -1,4 +1,4 @@
-import { IUsersRepository } from "../repositories";
+import { IUsersRepository } from "../../repositories";
 
 export class FindOne {
   constructor(private usersRepository: IUsersRepository) {}
