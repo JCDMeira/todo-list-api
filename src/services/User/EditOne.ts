@@ -1,5 +1,5 @@
-import { IUsersRepository } from "../../repositories";
-import { IEditByIdDTO } from "../../types";
+import { IUsersRepository } from "@/repositories";
+import { IEditByIdDTO } from "@/types";
 import encryptPassword from "../../utils/encryptPassword";
 
 export class EditOne {

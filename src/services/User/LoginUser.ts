@@ -1,5 +1,5 @@
-import { IUsersRepository } from "../../repositories";
-import { ILoginDTO } from "../../types";
+import { IUsersRepository } from "@/repositories";
+import { ILoginDTO } from "@/types";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
