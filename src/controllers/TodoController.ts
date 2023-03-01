@@ -1,5 +1,5 @@
 import TodoModel from "../models/TodoModel";
-import { Req, Res } from "../types";
+import { Req, Res } from "@/types";
 
 class TodoController {
   static async CreatTodo(req: Req<any>, res: Res) {
