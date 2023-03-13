@@ -1,23 +1,17 @@
 import TodoModel from "../models/TodoModel";
-import { Req, Res } from "@/types";
+import { Req, Res, TodoBody } from "@/types";
+import { TodoRepository } from "../repositories";
 
+const todoRepository = new TodoRepository();
 class TodoController {
-  static async CreatTodo(req: Req<any>, res: Res) {
+  static async CreatTodo(req: Req<TodoBody>, res: Res) {
     try {
-      if (req.body?.priority > 4)
+      if (req.body?.priority !== undefined && req.body?.priority > 4)
         return res.status(400).json({ message: "Invalid format" });
 
-      const date = new Date().getTime();
-      const todo = await TodoModel.create({
-        ...req.body,
-        isCompleted: false,
-        created_at: date,
-        updated_at: date,
-      });
+      todoRepository.create(req.body);
 
-      todo.__v = undefined;
-
-      return res.status(201).json({ message: "Todo sucessful created", todo });
+      return res.status(201).json({ message: "Todo sucessful created" });
     } catch ({ message }) {
       return res.status(400).json({ message });
     }
