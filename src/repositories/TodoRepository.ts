@@ -11,4 +11,10 @@ export class TodoRepository {
       updated_at: date,
     });
   }
+
+  async findByUserId(userId: string) {
+    const todos = await TodoModel.find({ created_by: userId });
+
+    return todos;
+  }
 }

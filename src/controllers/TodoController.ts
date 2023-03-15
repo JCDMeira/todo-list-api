@@ -9,7 +9,7 @@ class TodoController {
       if (req.body?.priority !== undefined && req.body?.priority > 4)
         return res.status(400).json({ message: "Invalid format" });
 
-      todoRepository.create(req.body);
+      await todoRepository.create(req.body);
 
       return res.status(201).json({ message: "Todo sucessful created" });
     } catch ({ message }) {
@@ -17,12 +17,12 @@ class TodoController {
     }
   }
 
-  static async GetTodos(req: Req<any>, res: Res) {
+  static async GetTodos(req: Req<{ userId: string }>, res: Res) {
     try {
       const { userId } = req.body;
       const { format } = req.query;
 
-      const todos = await TodoModel.find({ created_by: userId });
+      const todos = await todoRepository.findByUserId(userId);
 
       if (!!todos) {
         todos.forEach((_, index) => {
