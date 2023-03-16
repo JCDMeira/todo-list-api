@@ -69,17 +69,14 @@ class TodoController {
     }
   }
 
-  static async editTodo(req: Req<any>, res: Res) {
+  static async editTodo(req: Req<TodoBody>, res: Res) {
     try {
       const {
         body,
         params: { id },
       } = req;
-      const date = new Date().getTime();
-      await TodoModel.findByIdAndUpdate(id, {
-        ...body,
-        updated_at: date,
-      });
+
+      await todoRepository.updateTodo({ ...body, id });
 
       return res.status(200).json({ message: "Todo was editaled susscefully" });
     } catch ({ message }) {

@@ -1,6 +1,11 @@
 import TodoModel from "../models/TodoModel";
 import { TodoBody } from "@/types";
 
+type UpdateTodoDTO = {
+  id: string;
+} & TodoBody;
+
+type updateTodo = (props: UpdateTodoDTO) => Promise<void>;
 export class TodoRepository {
   async create(props: TodoBody) {
     const date = new Date().getTime();
@@ -17,4 +22,12 @@ export class TodoRepository {
 
     return todos;
   }
+
+  updateTodo: updateTodo = async (id, ...rest) => {
+    const date = new Date().getTime();
+    await TodoModel.findByIdAndUpdate(id, {
+      ...rest,
+      updated_at: date,
+    });
+  };
 }
