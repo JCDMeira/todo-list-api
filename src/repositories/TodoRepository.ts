@@ -30,4 +30,9 @@ export class TodoRepository {
       updated_at: date,
     });
   };
+
+  deleteTodo = async (id: string) => {
+    const todo = await TodoModel.findByIdAndDelete(id);
+    return todo;
+  };
 }

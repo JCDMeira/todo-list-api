@@ -89,7 +89,7 @@ class TodoController {
       const {
         params: { id },
       } = req;
-      const todo = await TodoModel.findByIdAndDelete(id);
+      const todo = await todoRepository.deleteTodo(id);
 
       if (!todo) return res.status(404).json({ message: "Todo was not found" });
 
