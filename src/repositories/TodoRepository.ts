@@ -1,12 +1,8 @@
 import TodoModel from "../models/TodoModel";
-import { TodoBody } from "@/types";
+import { TodoBody, updateTodo } from "@/types";
+import { ITodoRepository } from "./ITodosRepository";
 
-type UpdateTodoDTO = {
-  id: string;
-} & TodoBody;
-
-type updateTodo = (props: UpdateTodoDTO) => Promise<void>;
-export class TodoRepository {
+export class TodoRepository implements ITodoRepository {
   async create(props: TodoBody) {
     const date = new Date().getTime();
     await TodoModel.create({
@@ -17,7 +13,7 @@ export class TodoRepository {
     });
   }
 
-  async findByUserId(userId: string) {
+  async findTodosByUserId(userId: string) {
     const todos = await TodoModel.find({ created_by: userId });
 
     return todos;

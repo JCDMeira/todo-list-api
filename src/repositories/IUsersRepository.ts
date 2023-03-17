@@ -9,5 +9,5 @@ export interface IUsersRepository {
 
   editById(props: IEditByIdDTO): Promise<User | null>;
 
-  deleteById(props: any): void;
+  deleteById(props: any): Promise<void>;
 }

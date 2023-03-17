@@ -22,7 +22,7 @@ class TodoController {
       const { userId } = req.body;
       const { format } = req.query;
 
-      const todos = await todoRepository.findByUserId(userId);
+      const todos = await todoRepository.findTodosByUserId(userId);
 
       if (!!todos) {
         todos.forEach((_, index) => {
@@ -84,7 +84,7 @@ class TodoController {
     }
   }
 
-  static async deleTodo(req: Req<any>, res: Res) {
+  static async deleTodo(req: Req<{}>, res: Res) {
     try {
       const {
         params: { id },

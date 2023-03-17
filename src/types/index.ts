@@ -4,3 +4,5 @@ export * from "./TodoBody";
 export * from "./UserBody";
 export * from "./UsersDTO";
 export * from "./User";
+export * from "./TodosDTO";
+export * from "./Todo";
