@@ -1,16 +1,14 @@
 import TodoModel from "../models/TodoModel";
 import { Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
+import { CreateTodo } from "../services/Todo/CreateTodo";
 
 const todoRepository = new TodoRepository();
 class TodoController {
   static async CreatTodo(req: Req<TodoBody>, res: Res) {
     try {
-      if (req.body?.priority !== undefined && req.body?.priority > 4)
-        return res.status(400).json({ message: "Invalid format" });
-
-      await todoRepository.create(req.body);
-
+      const createTodoService = new CreateTodo(todoRepository);
+      await createTodoService.execute(req.body);
       return res.status(201).json({ message: "Todo sucessful created" });
     } catch ({ message }) {
       return res.status(400).json({ message });

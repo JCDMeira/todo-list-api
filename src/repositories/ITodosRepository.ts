@@ -1,7 +1,7 @@
 import { TodoBody, UpdateTodoDTO } from "../types";
 
 export interface ITodoRepository {
-  create(props: TodoBody): void;
+  create(props: TodoBody): Promise<void>;
 
   findTodosByUserId(userId: string): Promise<any>;
 
