@@ -2,6 +2,7 @@ import TodoModel from "../models/TodoModel";
 import { Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
 import { CreateTodo } from "../services/Todo/CreateTodo";
+import { GetTodos } from "../services/Todo/GetTodos";
 
 const todoRepository = new TodoRepository();
 class TodoController {
@@ -20,46 +21,8 @@ class TodoController {
       const { userId } = req.body;
       const { format } = req.query;
 
-      const todos = await todoRepository.findTodosByUserId(userId);
-
-      if (!!todos) {
-        todos.forEach((_, index) => {
-          todos[index].__v = undefined;
-        });
-      }
-
-      if (format === "priority") {
-        const todosByPriority = todos.reduce<any>(
-          (acc, todo) => {
-            switch (todo.priority) {
-              case 0:
-                return { ...acc, draft: [...acc.draft, todo] };
-              case 1:
-                return { ...acc, to_do: [...acc.to_do, todo] };
-              case 2:
-                return { ...acc, when_you_give: [...acc.when_you_give, todo] };
-              case 3:
-                return { ...acc, as_soon: [...acc.as_soon, todo] };
-              case 4:
-                return {
-                  ...acc,
-                  as_soon_as_possible: [...acc.as_soon_as_possible, todo],
-                };
-              default:
-                throw new Error("Internal error");
-            }
-          },
-          {
-            draft: [],
-            to_do: [],
-            when_you_give: [],
-            as_soon: [],
-            as_soon_as_possible: [],
-          }
-        );
-
-        return res.status(200).json(todosByPriority);
-      }
+      const getTodosService = new GetTodos(todoRepository);
+      const todos = await getTodosService.execute(userId, format);
 
       return res.status(200).json({ todos });
     } catch ({ message }) {
