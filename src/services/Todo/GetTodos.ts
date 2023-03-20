@@ -1,14 +1,16 @@
-import { FormatType } from "@/types";
+import { FormatType, Todo, TodosByPriority } from "@/types";
 import { ITodoRepository } from "../../repositories/ITodosRepository";
 
 export class GetTodos {
   constructor(private todoRepository: ITodoRepository) {}
 
   async execute(userId: string, format: FormatType) {
-    const todos: any[] = await this.todoRepository.findTodosByUserId(userId);
+    const todos = (await this.todoRepository.findTodosByUserId(
+      userId
+    )) as Todo[];
 
     if (!!todos) {
-      todos.forEach((_: any, index: number) => {
+      todos.forEach((_, index) => {
         todos[index].__v = undefined;
       });
     }
@@ -43,7 +45,7 @@ export class GetTodos {
         }
       );
 
-      return todosByPriority;
+      return todosByPriority as TodosByPriority;
     }
     return todos;
   }
