@@ -1,9 +1,6 @@
-import TodoModel from "../models/TodoModel";
 import { FormatType, Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
-import { CreateTodo } from "../services/Todo/CreateTodo";
-import { GetTodos } from "../services/Todo/GetTodos";
-import { UpdateTodo } from "@/services/Todo/UpdateTodo";
+import { CreateTodo, GetTodos, UpdateTodo } from "../services/";
 
 const todoRepository = new TodoRepository();
 class TodoController {

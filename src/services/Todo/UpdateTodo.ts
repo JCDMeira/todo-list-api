@@ -1,4 +1,4 @@
-import { ITodoRepository } from "@/repositories/ITodosRepository";
+import { ITodoRepository } from "../../repositories/ITodosRepository";
 import { UpdateTodoProps } from "@/types";
 
 export class UpdateTodo {
