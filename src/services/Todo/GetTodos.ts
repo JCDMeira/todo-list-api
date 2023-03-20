@@ -1,9 +1,10 @@
+import { FormatType } from "@/types";
 import { ITodoRepository } from "../../repositories/ITodosRepository";
 
 export class GetTodos {
   constructor(private todoRepository: ITodoRepository) {}
 
-  async execute(userId: string, format: any) {
+  async execute(userId: string, format: FormatType) {
     const todos: any[] = await this.todoRepository.findTodosByUserId(userId);
 
     if (!!todos) {

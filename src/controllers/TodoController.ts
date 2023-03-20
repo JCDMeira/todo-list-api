@@ -1,5 +1,5 @@
 import TodoModel from "../models/TodoModel";
-import { Req, Res, TodoBody } from "@/types";
+import { FormatType, Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
 import { CreateTodo } from "../services/Todo/CreateTodo";
 import { GetTodos } from "../services/Todo/GetTodos";
@@ -19,7 +19,7 @@ class TodoController {
   static async GetTodos(req: Req<{ userId: string }>, res: Res) {
     try {
       const { userId } = req.body;
-      const { format } = req.query;
+      const format = req.query.format as FormatType;
 
       const getTodosService = new GetTodos(todoRepository);
       const todos = await getTodosService.execute(userId, format);

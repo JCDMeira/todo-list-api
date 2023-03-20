@@ -7,3 +7,5 @@ export type Todo = {
   created_at: number;
   updated_at: number;
 } & TodoBody;
+
+export type FormatType = "" | "priority";
