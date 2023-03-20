@@ -3,6 +3,7 @@ import { FormatType, Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
 import { CreateTodo } from "../services/Todo/CreateTodo";
 import { GetTodos } from "../services/Todo/GetTodos";
+import { UpdateTodo } from "@/services/Todo/UpdateTodo";
 
 const todoRepository = new TodoRepository();
 class TodoController {
@@ -37,7 +38,8 @@ class TodoController {
         params: { id },
       } = req;
 
-      await todoRepository.updateTodo({ ...body, id });
+      const updateTodoService = new UpdateTodo(todoRepository);
+      updateTodoService.execute({ ...body, id });
 
       return res.status(200).json({ message: "Todo was editaled susscefully" });
     } catch ({ message }) {

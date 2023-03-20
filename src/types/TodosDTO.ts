@@ -5,3 +5,4 @@ export type UpdateTodoDTO = {
 } & TodoBody;
 
 export type updateTodo = (props: UpdateTodoDTO) => Promise<void>;
+export type UpdateTodoProps = { id: string } & TodoBody;
