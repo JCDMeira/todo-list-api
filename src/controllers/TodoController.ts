@@ -1,3 +1,4 @@
+import { DeleteTodo } from "@/services/Todo/DeleteTodo";
 import { FormatType, Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
 import { CreateTodo, GetTodos, UpdateTodo } from "../services/";
@@ -49,8 +50,8 @@ class TodoController {
       const {
         params: { id },
       } = req;
-      const todo = await todoRepository.deleteTodo(id);
-
+      const DeleteTodoService = new DeleteTodo(todoRepository);
+      const todo = await DeleteTodoService.execute(id);
       if (!todo) return res.status(404).json({ message: "Todo was not found" });
 
       return res.status(200).json({ message: "Todo was deleted susscefully" });
