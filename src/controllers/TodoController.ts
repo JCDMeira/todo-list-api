@@ -1,7 +1,6 @@
-import { DeleteTodo } from "@/services/Todo/DeleteTodo";
 import { FormatType, Req, Res, TodoBody } from "@/types";
 import { TodoRepository } from "../repositories";
-import { CreateTodo, GetTodos, UpdateTodo } from "../services/";
+import { CreateTodo, GetTodos, UpdateTodo, DeleteTodo } from "../services/";
 
 const todoRepository = new TodoRepository();
 class TodoController {

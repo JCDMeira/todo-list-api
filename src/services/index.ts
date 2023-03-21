@@ -8,3 +8,4 @@ export * from "./User/LogoutUser";
 export * from "./Todo/CreateTodo";
 export * from "./Todo/GetTodos";
 export * from "./Todo/UpdateTodo";
+export * from "./Todo/DeleteTodo";
