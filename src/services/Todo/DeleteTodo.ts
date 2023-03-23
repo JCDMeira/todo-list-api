@@ -6,7 +6,5 @@ export class DeleteTodo {
     const todo = await this.todoRepository.deleteTodo(id);
 
     if (!todo) throw new Error("Todo was not found");
-
-    return todo;
   }
 }

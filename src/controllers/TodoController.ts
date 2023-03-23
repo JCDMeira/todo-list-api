@@ -50,8 +50,7 @@ class TodoController {
         params: { id },
       } = req;
       const DeleteTodoService = new DeleteTodo(todoRepository);
-      const todo = await DeleteTodoService.execute(id);
-      if (!todo) return res.status(404).json({ message: "Todo was not found" });
+      await DeleteTodoService.execute(id);
 
       return res.status(200).json({ message: "Todo was deleted susscefully" });
     } catch ({ message }) {
