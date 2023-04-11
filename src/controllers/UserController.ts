@@ -18,8 +18,12 @@ class UserController {
       const createUserService = new CreateUser(usersRepository);
       await createUserService.execute({ name, username, password });
       return res.status(201).json({ message: `User is sucefull create` });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -28,8 +32,12 @@ class UserController {
       const findUsersService = new FindUsers(usersRepository);
       const users = await findUsersService.execute();
       return res.status(200).json({ users });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -39,8 +47,12 @@ class UserController {
       const findOneService = new FindOne(usersRepository);
       const user = await findOneService.execute(id);
       return res.status(200).json(user);
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -51,8 +63,12 @@ class UserController {
       const EditOneService = new EditOne(usersRepository);
       await EditOneService.execute({ id, ...body });
       return res.status(200).json({ message: "User edited susscefull" });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -61,8 +77,12 @@ class UserController {
       const deleteUserService = new DeleteUser(usersRepository);
       deleteUserService.execute(req.params.id, req.body.userId);
       res.status(200).json({ message: "User deleted sussceful" });
-    } catch ({ message }) {
-      res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -71,8 +91,12 @@ class UserController {
       const loginUserService = new LoginUser(usersRepository);
       const user = await loginUserService.execute(req.body);
       return res.status(200).json(user);
-    } catch ({ message }) {
-      res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -83,8 +107,12 @@ class UserController {
       return res.status(200).json({
         message: "You have been logged out",
       });
-    } catch ({ message }) {
-      res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 }
