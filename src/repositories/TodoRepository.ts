@@ -14,9 +14,7 @@ export class TodoRepository implements ITodoRepository {
   }
 
   async findTodosByUserId(userId: string) {
-    const todos = await TodoModel.find({ created_by: userId });
-
-    return todos;
+    return TodoModel.find({ created_by: userId }, { __v: 0 });
   }
 
   updateTodo: updateTodo = async (id, ...rest) => {
@@ -28,7 +26,6 @@ export class TodoRepository implements ITodoRepository {
   };
 
   deleteTodo = async (id: string) => {
-    const todo = await TodoModel.findByIdAndDelete(id);
-    return todo;
+    return TodoModel.findByIdAndDelete(id);
   };
 }

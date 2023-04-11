@@ -9,12 +9,6 @@ export class GetTodos {
       userId
     )) as Todo[];
 
-    if (!!todos) {
-      todos.forEach((_, index) => {
-        todos[index].__v = undefined;
-      });
-    }
-
     if (format === "priority") {
       const todosByPriority = todos.reduce<any>(
         (acc, todo) => {
