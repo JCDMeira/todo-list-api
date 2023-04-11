@@ -9,8 +9,12 @@ class TodoController {
       const createTodoService = new CreateTodo(todoRepository);
       await createTodoService.execute(req.body);
       return res.status(201).json({ message: "Todo sucessful created" });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -23,8 +27,12 @@ class TodoController {
       const todos = await getTodosService.execute(userId, format);
 
       return res.status(200).json({ todos });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -39,8 +47,12 @@ class TodoController {
       updateTodoService.execute({ ...body, id });
 
       return res.status(200).json({ message: "Todo was editaled susscefully" });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 
@@ -53,8 +65,12 @@ class TodoController {
       await DeleteTodoService.execute(id);
 
       return res.status(200).json({ message: "Todo was deleted susscefully" });
-    } catch ({ message }) {
-      return res.status(400).json({ message });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        const { message } = error;
+        return res.status(400).json({ message });
+      }
+      return res.status(500).json({ message: "Unknown error" });
     }
   }
 }
