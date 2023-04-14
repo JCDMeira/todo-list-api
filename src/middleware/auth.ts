@@ -29,8 +29,12 @@ function Auth(req: Request, res: Response, next: NextFunction) {
 
       return next();
     });
-  } catch ({ message }) {
-    return res.status(400).json({ message });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const { message } = error;
+      return res.status(400).json({ message });
+    }
+    return res.status(500).json({ message: "Unknow error" });
   }
 }
 
