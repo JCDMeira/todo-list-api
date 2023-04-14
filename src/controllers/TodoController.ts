@@ -26,7 +26,7 @@ class TodoController {
       const getTodosService = new GetTodos(todoRepository);
       const todos = await getTodosService.execute(userId, format);
 
-      return res.status(200).json({ todos });
+      return res.status(200).json(todos);
     } catch (error: unknown) {
       if (error instanceof Error) {
         const { message } = error;
