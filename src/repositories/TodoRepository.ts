@@ -17,7 +17,7 @@ export class TodoRepository implements ITodoRepository {
     return TodoModel.find({ created_by: userId }, { __v: 0 });
   }
 
-  updateTodo: updateTodo = async (id, ...rest) => {
+  updateTodo: updateTodo = async ({ id, ...rest }) => {
     const date = new Date().getTime();
     await TodoModel.findByIdAndUpdate(id, {
       ...rest,
