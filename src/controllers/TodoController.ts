@@ -4,7 +4,7 @@ import { CreateTodo, GetTodos, UpdateTodo, DeleteTodo } from "../services/";
 
 const todoRepository = new TodoRepository();
 class TodoController {
-  static async CreatTodo(req: Req<TodoBody>, res: Res) {
+  static async CreateTodo(req: Req<TodoBody>, res: Res) {
     try {
       const createTodoService = new CreateTodo(todoRepository);
       await createTodoService.execute(req.body);
