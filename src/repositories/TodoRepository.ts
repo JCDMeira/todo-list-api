@@ -7,6 +7,7 @@ export class TodoRepository implements ITodoRepository {
     const date = new Date().getTime();
     await TodoModel.create({
       ...props,
+      created_by: props.userId,
       isCompleted: false,
       created_at: date,
       updated_at: date,

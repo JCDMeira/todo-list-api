@@ -4,5 +4,6 @@ export type TodoBody = {
   priority?: number;
   tag?: string[];
   date?: number;
+  userId: string;
   // isCompleted: boolean;
 };
