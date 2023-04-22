@@ -11,6 +11,7 @@ export class CreateTodo {
     )
       throw new Error("Invalid format");
 
-    await this.todoRepository.create(props);
+    const todo = await this.todoRepository.create(props);
+    return todo._id;
   }
 }

@@ -7,8 +7,8 @@ class TodoController {
   static async CreateTodo(req: Req<TodoBody>, res: Res) {
     try {
       const createTodoService = new CreateTodo(todoRepository);
-      await createTodoService.execute(req.body);
-      return res.status(201).json({ message: "Todo sucessful created" });
+      const _id = await createTodoService.execute(req.body);
+      return res.status(201).json({ message: "Todo sucessful created", _id });
     } catch (error: unknown) {
       if (error instanceof Error) {
         const { message } = error;

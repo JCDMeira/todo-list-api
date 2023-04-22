@@ -5,13 +5,14 @@ import { ITodoRepository } from "./ITodosRepository";
 export class TodoRepository implements ITodoRepository {
   async create(props: TodoBody) {
     const date = new Date().getTime();
-    await TodoModel.create({
+    const todo = await TodoModel.create({
       ...props,
       created_by: props.userId,
       isCompleted: false,
       created_at: date,
       updated_at: date,
     });
+    return todo;
   }
 
   async findTodosByUserId(userId: string) {
